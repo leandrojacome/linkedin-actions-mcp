@@ -14,6 +14,9 @@ a candidatura usa um navegador local persistente e nunca expõe a sessão por HT
 O servidor usa `stdio`, armazena o perfil do navegador apenas na máquina do usuário e não envia
 cookies, tokens ou currículos para serviços intermediários.
 
+Para staging privado, também pode usar Streamable HTTP vinculado exclusivamente ao endereço da
+tailnet. Não vincule o servidor a uma interface pública.
+
 ## Desenvolvimento
 
 ```bash
@@ -25,6 +28,11 @@ uv run fastmcp dev src/linkedin_actions_mcp/server.py
 
 Copie `.env.example` para `.env` somente se for usar a API oficial de publicação. Nunca envie o
 arquivo `.env` ao Git.
+
+### Staging pela tailnet
+
+Defina `LINKEDIN_TRANSPORT=http`, `LINKEDIN_HOST` com o IP Tailscale local e mantenha a porta fora
+da internet pública. O endpoint Streamable HTTP será `/mcp`.
 
 ## Ferramentas
 
@@ -51,4 +59,3 @@ um bloqueio legível e não declara a candidatura como enviada.
 ## Licença
 
 Apache-2.0.
-

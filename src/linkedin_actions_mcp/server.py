@@ -39,7 +39,10 @@ async def apply_to_linkedin_job(
 
 
 def main() -> None:
-    mcp.run()
+    if settings.transport == "http":
+        mcp.run(transport="http", host=settings.host, port=settings.port)
+        return
+    mcp.run(transport="stdio")
 
 
 if __name__ == "__main__":

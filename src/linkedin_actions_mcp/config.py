@@ -17,3 +17,6 @@ class Settings(BaseSettings):
     browser_profile_dir: Path = Path.home() / ".config" / "linkedin-actions-mcp" / "browser"
     headless: bool = False
     request_timeout_seconds: float = 30.0
+    transport: str = "stdio"
+    host: str = "127.0.0.1"
+    port: int = 8787
