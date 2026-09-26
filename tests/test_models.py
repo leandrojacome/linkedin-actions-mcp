@@ -11,6 +11,11 @@ def test_post_requires_content() -> None:
         PostRequest(text="")
 
 
+def test_post_rejects_missing_image() -> None:
+    with pytest.raises(ValidationError):
+        PostRequest(text="Python", image_path=Path("missing.png"))
+
+
 def test_application_rejects_non_linkedin_url() -> None:
     with pytest.raises(ValidationError):
         ApplicationRequest(job_url="https://example.com/jobs/123")

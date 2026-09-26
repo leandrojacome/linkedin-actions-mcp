@@ -11,8 +11,22 @@ class Visibility(StrEnum):
 
 class PostRequest(BaseModel):
     text: str = Field(min_length=1, max_length=3000)
+    image_path: Path | None = None
+    image_alt_text: str | None = Field(default=None, max_length=4086)
     visibility: Visibility = Visibility.PUBLIC
     confirmed: bool = False
+
+    @field_validator("image_path")
+    @classmethod
+    def validate_image(cls, value: Path | None) -> Path | None:
+        if value is None:
+            return None
+        resolved = value.expanduser().resolve()
+        if not resolved.is_file():
+            raise ValueError("A imagem informada não existe")
+        if resolved.suffix.lower() not in {".jpg", ".jpeg", ".png", ".gif"}:
+            raise ValueError("A imagem precisa estar em JPG, PNG ou GIF")
+        return resolved
 
 
 class ApplicationRequest(BaseModel):

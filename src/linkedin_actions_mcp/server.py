@@ -12,12 +12,20 @@ settings = Settings()
 @mcp.tool()
 async def publish_linkedin_post(
     text: str,
+    image_path: str | None = None,
+    image_alt_text: str | None = None,
     visibility: Visibility = Visibility.PUBLIC,
     confirmed: bool = False,
 ) -> dict[str, str | bool]:
-    """Cria uma prévia ou publica um post no LinkedIn pela API oficial."""
+    """Cria uma prévia ou publica texto e imagem no LinkedIn pela API oficial."""
     return await LinkedInPublisher(settings).publish(
-        PostRequest(text=text, visibility=visibility, confirmed=confirmed)
+        PostRequest(
+            text=text,
+            image_path=image_path,
+            image_alt_text=image_alt_text,
+            visibility=visibility,
+            confirmed=confirmed,
+        )
     )
 
 

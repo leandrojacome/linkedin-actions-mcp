@@ -2,7 +2,7 @@
 
 Servidor MCP local da CodeSpec focado somente nas ações que faltam ao MCP de leitura:
 
-- publicar posts pela API oficial do LinkedIn;
+- publicar posts de texto ou imagem pela API oficial do LinkedIn;
 - preparar e enviar candidaturas simplificadas usando uma sessão local do navegador.
 
 ## Limites importantes
@@ -39,7 +39,9 @@ da internet pública. O endpoint Streamable HTTP será `/mcp`.
 ### `publish_linkedin_post`
 
 Cria uma prévia por padrão. Para publicar, informe `confirmed=true`. Requer
-`LINKEDIN_ACCESS_TOKEN` e `LINKEDIN_AUTHOR_URN`.
+`LINKEDIN_ACCESS_TOKEN` e `LINKEDIN_AUTHOR_URN`. Para imagem, informe `image_path` e,
+opcionalmente, `image_alt_text`; o servidor inicializa o upload, envia o arquivo e cria o post
+pela API oficial, sem navegador.
 
 ### `apply_to_linkedin_job`
 
