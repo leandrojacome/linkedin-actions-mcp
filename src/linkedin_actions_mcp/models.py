@@ -56,3 +56,29 @@ class ApplicationRequest(BaseModel):
         if resolved.suffix.lower() != ".pdf":
             raise ValueError("O currículo precisa estar em PDF")
         return resolved
+
+
+class ServiceProposalRequest(BaseModel):
+    request_url: HttpUrl
+    message: str = Field(min_length=20, max_length=2000)
+    estimated_hours_min: int = Field(ge=1, le=2000)
+    estimated_hours_max: int = Field(ge=1, le=2000)
+    confirmed: bool = False
+
+    @field_validator("request_url")
+    @classmethod
+    def validate_request_url(cls, value: HttpUrl) -> HttpUrl:
+        host = (value.host or "").lower()
+        if host not in {"linkedin.com", "www.linkedin.com"}:
+            raise ValueError("A URL precisa pertencer ao domínio linkedin.com")
+        if "/services/" not in value.path:
+            raise ValueError("A URL precisa apontar para uma solicitação de serviços")
+        return value
+
+    @field_validator("estimated_hours_max")
+    @classmethod
+    def validate_hours(cls, value: int, info) -> int:
+        minimum = info.data.get("estimated_hours_min")
+        if minimum is not None and value < minimum:
+            raise ValueError("A estimativa máxima não pode ser menor que a mínima")
+        return value
